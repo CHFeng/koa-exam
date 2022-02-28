@@ -24,7 +24,7 @@ const init = async () => {
     // check table are existed
     await query(`CREATE TABLE IF NOT EXISTS ${accountTableName} (
         id VARCHAR(20) NOT NULL,
-        password VARCHAR(20) NOT NULL,
+        password VARCHAR(32) NOT NULL,
         balance Numeric DEFAULT 0.0,
         PRIMARY KEY (id))`
     );

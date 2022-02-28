@@ -1,3 +1,4 @@
+import pbkdf2 from "pbkdf2"
 import jwt from "jsonwebtoken";
 import account from "../models/account.js";
 import config from "../config.js"
@@ -22,7 +23,8 @@ const singin = async (ctx) => {
         ctx.status = 400;
         ctx.body = {"msg": "The account does not exist"};
     } else {
-        if (password === result.password) {
+        const encrypted = pbkdf2.pbkdf2Sync(password, config.PBKDF2_SALT, 1, 32, 'sha512').toString();
+        if (encrypted === result.password) {
             const token = jwt.sign(id, config.JWT_SECRET_KEY);
     
             ctx.body = {"data": token};
@@ -47,7 +49,8 @@ const singup = async (ctx) => {
         } else {
             const result = await account.getById(id);
             if (!result) {
-                await account.create(id, password);
+                const encrypted = pbkdf2.pbkdf2Sync(password, config.PBKDF2_SALT, 1, 32, 'sha512');
+                await account.create(id, encrypted);
                 ctx.body = {"msg": "create account success"};
             } else {
                 ctx.status = 400;

@@ -6,7 +6,8 @@ const config = {
         password: 'postgres',
         port: 5432,
     },
-    JWT_SECRET_KEY: "~!@#$%`12345"
+    JWT_SECRET_KEY: "~!@#$%`12345",
+    PBKDF2_SALT: "~!@#$%0123456789"
   }
   
   export default config;
