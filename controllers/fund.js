@@ -1,7 +1,5 @@
-import moment from "moment";
-
 import fund from "../models/fund.js";
-import trade from "../models/trade.js";
+import service from "../service/fund.js";
 
 const getAll = async (ctx) => {
     const result = await fund.getAll();
@@ -36,48 +34,23 @@ const create = async (ctx) => {
 
 const update = async (ctx) => {
     const { id, name, type, fee, nav } = ctx.request.body;
+    const result = await service.update(id, name, type, fee, nav);
 
-    if (!id) {
+    if (!result.status) {
         ctx.status = 400;
-        ctx.body = {msg: "It should be have id to update"}
-    } else {
-        const result = await fund.getById(id);
-        if (!!result) {
-            await fund.update(id, name, type, fee, nav);
-            ctx.body = { msg: "update the fund success"};
-        } else {
-            ctx.status = 400;
-            ctx.body = {msg: "The id does not exist"}
-        }
-    }
-}
-
-const getNextTradeDate = () => {
-    return moment().add(1, "days");
+    } 
+    ctx.body = { msg: result.msg };
 }
 
 const buy = async (ctx) => {
     const { accoundId, fundId } = ctx.request.body;
+    const result = await service.buy(accoundId, fundId);
 
-    if (!accoundId || !fundId) {
+    if (!result.status) {
         ctx.status = 400;
-        ctx.body = {msg: "It's missing parameters"}
-    } else {
-        const today = moment().format("YYYY-MM-DD");
-        const closingTime = moment(today + " 14:00:00");
-        let msg;
-        let realTradeDate;
+    } 
 
-        if (moment(tradeDate).isAfter(closingTime)) {
-            msg = "It has passed closing time, the trade will be processed in next trade date";
-            realTradeDate = getNextTradeDate();
-        } else {
-            msg = "craete trade order success";
-            realTradeDate = moment();
-        }
-        await trade.create(accoundId, fundId, false, realTradeDate);
-        ctx.body = { msg: msg};
-    }
+    ctx.body = { msg: result.msg };
 }
 export default {
     getAll: getAll, 
