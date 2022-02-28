@@ -2,10 +2,18 @@ import moment from "moment";
 
 import model from "../models/trade.js";
 
+/**
+ *  get the next trade date
+ */
 const getNextTradeDate = () => {
     return moment().add(1, "days");
 }
 
+/**
+ *  create a trade order
+ * @param {string} accoundId 
+ * @param {string} fundId 
+ */
 const create = async (accoundId, fundId) => {
     const data = {status: false, msg: ""};
 
@@ -30,6 +38,15 @@ const create = async (accoundId, fundId) => {
     return data;
 }
 
+/**
+ *  update a trade order by id
+ * @param {string} id 
+ * @param {string} accoundId 
+ * @param {string} fundId 
+ * @param {boolean} isFinished 
+ * @param {timestamp} tradeDate 
+ * @param {number} transactionAmount 
+ */
 const update = async (id, accoundId, fundId, isFinished, tradeDate, transactionAmount) => {
     const data = {status: false, msg: ""};
     

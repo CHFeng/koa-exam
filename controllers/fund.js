@@ -1,19 +1,29 @@
 import model from "../models/fund.js";
 import service from "../service/fund.js";
 
+/**
+ *  get all funds
+ * @param {object} ctx 
+ */
 const getAll = async (ctx) => {
     const result = await model.getAll();
 
     ctx.body = {data: result};
 }
-
+/**
+ *  get a fund by id
+ * @param {object} ctx 
+ */
 const getById = async (ctx) => {
     const id = ctx.params.id;
 
     const result = await model.getById(id);
     ctx.body = {data: result};
 }
-
+/**
+ *  create a fund
+ * @param {object} ctx 
+ */
 const create = async (ctx) => {
     const { name, type } = ctx.request.body;
 
@@ -31,7 +41,10 @@ const create = async (ctx) => {
         }
     }
 }
-
+/**
+ *  update a fund by id
+ * @param {object} ctx 
+ */
 const update = async (ctx) => {
     const { id, name, type, fee, nav } = ctx.request.body;
     const result = await service.update(id, name, type, fee, nav);

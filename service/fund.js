@@ -1,5 +1,10 @@
 import model from "../models/fund.js";
 
+/**
+ *  create a fund
+ * @param {string} name 
+ * @param {string} type 
+ */
 const create = async (name, type) => {
     const data = {status: false, msg: ""};
 
@@ -19,6 +24,14 @@ const create = async (name, type) => {
     return data;
 }
 
+/**
+ *  update a fund by id
+ * @param {string} id 
+ * @param {string} name 
+ * @param {string} type 
+ * @param {number} fee 
+ * @param {number} nav 
+ */
 const update = async (id, name, type, fee, nav) => {
     const data = {status: false, msg: ""};
     

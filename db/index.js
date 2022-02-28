@@ -8,11 +8,19 @@ const tradeTableName = "trades";
 
 const pool = new PG.Pool(config.database);
 
+/**
+ *  sub query procedure
+ * @param {string} text 
+ * @param {array} params 
+ */
 const query = async (text, params)  => {
     const result = await pool.query(text, params);
     return result;
 }
 
+/**
+ *  initialize database
+ */
 const init = async () => {
     // install extension
     await query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
@@ -53,12 +61,19 @@ const init = async () => {
         console.log("DB connect Success!")
     }
 }
-
+/**
+ *  get data by id
+ * @param {string} table 
+ * @param {string} id 
+ */
 const findDataById = async (table, id) => {
     const  _sql =  "SELECT * FROM ?? WHERE id = ? ";
     return query( _sql, [ table, id ] );
 }
-
+/**
+ *  get all data
+ * @param {string} table 
+ */
 const findAllData = async (table) => {
     const  _sql =  "SELECT * FROM ??";
     return query( _sql, [ table ] );

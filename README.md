@@ -5,7 +5,8 @@
 * models: database ORM
 * middleware: 路由驗證token的middleware
 * db: postgresql connection
-* controllers: 實際業務邏輯
+* controllers: 參數檢查與回應
+* service: 實際業務處理
 
 ## Database
 使用docker-compose啟用postgresql

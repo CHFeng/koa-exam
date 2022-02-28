@@ -1,6 +1,11 @@
 import jwt from "jsonwebtoken";
 import config from "../config.js"
 
+/**
+ *  verify token in header
+ * @param {object} ctx 
+ * @param {function} next 
+ */
 const verifyToken = async (ctx, next) => {
     const { token } = ctx.header;
     

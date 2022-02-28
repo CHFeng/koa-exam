@@ -4,6 +4,11 @@ import jwt from "jsonwebtoken";
 import account from "../models/account.js";
 import config from "../config.js"
 
+/**
+ *  sing in an account
+ * @param {string} id 
+ * @param {string} password 
+ */
 const singin = async (id, password) => {
     const result = await account.getById(id);
     const data = {status: false, msg: ""};
@@ -23,7 +28,12 @@ const singin = async (id, password) => {
 
     return data;
 }
-
+/**
+ *  sing up an account
+ * @param {string} id 
+ * @param {string} password 
+ * @param {string} secondPassword 
+ */
 const singup = async (id, password, secondPassword) => {
     const data = {status: false, msg: ""};
 
