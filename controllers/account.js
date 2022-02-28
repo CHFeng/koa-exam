@@ -1,15 +1,15 @@
-import account from "../models/account.js";
+import model from "../models/account.js";
 import service from "../service/account.js"
 
 
 const getAll = async (ctx) => {
-    const result = await account.getAll();
+    const result = await model.getAll();
 
     ctx.body = {data: result};
 }
 
 const getById = async (ctx) => {
-    const result = await account.getById(ctx.user);
+    const result = await model.getById(ctx.user);
 
     ctx.body = {data: result};
 }
