@@ -4,6 +4,7 @@ import config from "../config.js"
 const dbName = "koa";
 const accountTableName = "accounts";
 const fundTableName = "funds";
+const tradeTableName = "trades";
 
 const pool = new PG.Pool(config.database);
 
@@ -35,9 +36,18 @@ const init = async () => {
         nav Numeric,
         PRIMARY KEY (id))`
     );
+    await query(`CREATE TABLE IF NOT EXISTS ${tradeTableName} (
+        id VARCHAR(36) NOT NULL,
+        accoundId VARCHAR(20) NOT NULL,
+        fundId VARCHAR(36) NOT NULL,
+        isFinished boolean NOT NULL,
+        tradeDate timestamp NOT NULL,
+        transactionAmount Numeric,
+        PRIMARY KEY (id))`
+    );
     // fetch tables
     result = await query("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
-    if (result.rowCount !== 2) {
+    if (result.rowCount !== 3) {
         console.log(result.rows);
         throw new Error("Create tables failed");
     } else {
@@ -58,6 +68,7 @@ const findAllData = async (table) => {
 export default {
     accountTableName: accountTableName,
     fundTableName: fundTableName,
+    tradeTableName: tradeTableName,
     query: query,
     init: init,
     findDataById: findDataById,

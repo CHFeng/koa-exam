@@ -1,4 +1,7 @@
+import moment from "moment";
+
 import fund from "../models/fund.js";
+import trade from "../models/trade.js";
 
 const getAll = async (ctx) => {
     const result = await fund.getAll();
@@ -49,8 +52,32 @@ const update = async (ctx) => {
     }
 }
 
+const getNextTradeDate = () => {
+    return moment().add(1, "days");
+}
+
 const buy = async (ctx) => {
-    
+    const { accoundId, fundId } = ctx.request.body;
+
+    if (!accoundId || !fundId) {
+        ctx.status = 400;
+        ctx.body = {msg: "It's missing parameters"}
+    } else {
+        const today = moment().format("YYYY-MM-DD");
+        const closingTime = moment(today + " 14:00:00");
+        let msg;
+        let realTradeDate;
+
+        if (moment(tradeDate).isAfter(closingTime)) {
+            msg = "It has passed closing time, the trade will be processed in next trade date";
+            realTradeDate = getNextTradeDate();
+        } else {
+            msg = "craete trade order success";
+            realTradeDate = moment();
+        }
+        await trade.create(accoundId, fundId, false, realTradeDate);
+        ctx.body = { msg: msg};
+    }
 }
 export default {
     getAll: getAll, 
