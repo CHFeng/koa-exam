@@ -48,7 +48,6 @@ const init = async () => {
     // fetch tables
     result = await query("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
     if (result.rowCount !== 3) {
-        console.log(result.rows);
         throw new Error("Create tables failed");
     } else {
         console.log("DB connect Success!")
